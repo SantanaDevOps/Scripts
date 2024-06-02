@@ -28,22 +28,6 @@ This PowerShell script allows you to clean up the %temp%, user's temp, and prefe
 
 8. Press any key to exit the script.
 
-## Contributing
-
-Contributions to this script are welcome! If you have any ideas, suggestions, or improvements, please follow these steps:
-
-1. Fork the repository.
-
-2. Create a new branch for your feature or bug fix.
-
-3. Make your modifications and test thoroughly.
-
-4. Commit your changes and push them to your forked repository.
-
-5. Submit a pull request, describing the changes you have made and the purpose of the modifications.
-
-Please ensure that your contributions align with the script's purpose and maintain a clear and readable code style. All contributions will be reviewed before being merged into the main repository.
-
 ## Notes
 
 - This script requires administrative privileges to run. Regarding this, it will automatically attempt to run as an administrator if not already running with elevated privileges.
@@ -52,12 +36,5 @@ Please ensure that your contributions align with the script's purpose and mainta
 
 - If a file or folder is in use or cannot be deleted for any reason, the script will skip it and continue with the next item. Thus, it will not interrupt the overall execution flow.
 
-- The script provides a pause at the end to allow you to view the results before the window closes; You need to press any key to exit the script.
+- The script provides a pause at the end to allow you to view the results before the window closes; you need to press any key to exit the script.
 
-## Disclaimer
-
-This script is provided as-is without any warranty and has been tested on a few machines running on Windows 10 and 11. Use it at your own risk. Always backup important data before running any cleanup scripts.
-
-## License
-
-This script is released under the [MIT License](https://opensource.org/licenses/MIT).
