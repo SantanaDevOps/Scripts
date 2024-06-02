@@ -9,13 +9,13 @@ This PowerShell script allows you to clean up the %temp%, user's temp, and prefe
 
 ## Usage
 
-1. Download the `TempAndPrefetchCleaner.ps1` script.
+1. Download `temp-prefetch-cleaner.ps1` script.
 
 2. Open PowerShell as an administrator.
 
 3. Navigate to the directory where the script is located.
 
-4. Run the script by executing the following command: `.\TempAndPrefetchCleaner.ps1`.
+4. Run the script by executing the following command: `.\temp-prefetch-cleaner.ps1`.
   
 5. The script will attempt to delete files and folders in the following locations:
 - %temp% folder
