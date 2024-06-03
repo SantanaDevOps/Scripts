@@ -4,50 +4,76 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     exit
 }
 
-# Function to delete files and folders recursively
+# Function to delete files and folders recursively and return the count of deleted items
 function Remove-FilesAndFolders {
     param(
         [string]$FolderPath
     )
 
+    $deletedCount = 0
+
     # Delete files in the folder
     Get-ChildItem -Path $FolderPath -File | ForEach-Object {
-         try {
+        try {
             $childItems = Get-ChildItem -Path $_.FullName -Recurse -ErrorAction SilentlyContinue
             if ($childItems) {
                 Write-Host "Skipping folder with child items: $($_.FullName)"
-            }
-            else {
+            } else {
                 Remove-Item -Path $_.FullName -Force -ErrorAction SilentlyContinue
+                $deletedCount++
             }
+        } catch {
+            Write-Host "Unable to delete file: $($_.FullName)"
         }
-        catch {
+    }
+
+    # Delete folders in the folder
+    Get-ChildItem -Path $FolderPath -Directory | ForEach-Object {
+        try {
+            Remove-Item -Path $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
+            $deletedCount++
+        } catch {
             Write-Host "Unable to delete folder: $($_.FullName)"
         }
     }
+
+    return $deletedCount
 }
+
+# Initialize total deleted count
+$totalDeleted = 0
 
 # Delete files and folders in %temp%
 $tempFolder = $env:TEMP
 Write-Host "Deleting files and folders in %temp%..."
-Remove-FilesAndFolders -FolderPath $tempFolder
+$tempDeletedCount = Remove-FilesAndFolders -FolderPath $tempFolder
+$totalDeleted += $tempDeletedCount
 
 # Delete files and folders in the current user's temp folder
 $userTempFolder = Join-Path -Path $env:USERPROFILE -ChildPath "AppData\Local\Temp"
 Write-Host "Deleting files and folders in the current user's temp folder..."
-Remove-FilesAndFolders -FolderPath $userTempFolder
+$userTempDeletedCount = Remove-FilesAndFolders -FolderPath $userTempFolder
+$totalDeleted += $userTempDeletedCount
 
 # Delete files and folders in the system-wide temp folder
 $systemTempFolder = Join-Path -Path $env:WINDIR -ChildPath "Temp"
 Write-Host "Deleting files and folders in the system-wide temp folder..."
-Remove-FilesAndFolders -FolderPath $systemTempFolder
+$systemTempDeletedCount = Remove-FilesAndFolders -FolderPath $systemTempFolder
+$totalDeleted += $systemTempDeletedCount
 
 # Delete files and folders in the prefetch folder
 $prefetchFolder = Join-Path -Path $env:WINDIR -ChildPath "Prefetch"
 Write-Host "Deleting files and folders in the prefetch folder..."
-Remove-FilesAndFolders -FolderPath $prefetchFolder
+$prefetchDeletedCount = Remove-FilesAndFolders -FolderPath $prefetchFolder
+$totalDeleted += $prefetchDeletedCount
 
-Write-Host "Executed successfully. Files and folders that could not be deleted have been skipped."
+# Print summary of deleted counts
+Write-Host "Execution completed. Summary of deleted files and folders:"
+Write-Host "Deleted $tempDeletedCount files and folders in %temp%."
+Write-Host "Deleted $userTempDeletedCount files and folders in the current user's temp folder."
+Write-Host "Deleted $systemTempDeletedCount files and folders in the system-wide temp folder."
+Write-Host "Deleted $prefetchDeletedCount files and folders in the prefetch folder."
+Write-Host "Total deleted files and folders: $totalDeleted"
 
 # Pause to view the result before closing the window
 Write-Host "Press any key to exit..."
