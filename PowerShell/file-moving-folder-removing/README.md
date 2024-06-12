@@ -24,6 +24,8 @@ The "File Moving and Folder Removing" script is designed to simplify the process
 ## Example
 
 Suppose you have a main directory called "Documents" with the following structure:
+
+```
 Documents/
 ├── Folder1/
 │ ├── File1.txt
@@ -34,8 +36,9 @@ Documents/
 └── Folder3/
 ├── File5.txt
 └── File6.txt
-
+```
 After running the script and entering the path "C:\Documents" when prompted, the resulting directory structure will be:
+```
 Documents/
 ├── File1.txt
 ├── File2.txt
@@ -43,7 +46,7 @@ Documents/
 ├── File4.txt
 ├── File5.txt
 └── File6.txt
-
+```
 All the files from the subfolders will be moved to the main "Documents" directory, and the empty subfolders (Folder1, Folder2, and Folder3) will be removed.
 
 ## Notes
